@@ -1,6 +1,7 @@
-import { MainPage } from "pages/main";
 import React from "react";
 import ReactDOM from "react-dom";
+
+import { MainPage } from "pages/main";
 
 import "./index.css";
 import { ReactQueryProvider } from "./queryClient";
