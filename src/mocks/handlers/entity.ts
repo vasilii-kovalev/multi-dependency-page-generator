@@ -1,4 +1,5 @@
 import { rest } from "msw";
+
 import { Entities } from "models/entity/types";
 import { getEntitiesEndpoint } from "services/entity";
 

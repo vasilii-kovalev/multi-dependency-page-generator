@@ -2,30 +2,50 @@ import { Layout, Menu, Select, Spin } from "antd";
 import * as React from "react";
 import { useQuery } from "react-query";
 
+import { usePrevious } from "hooks/usePrevious";
+import { COLORS_QUERY_KEY } from "models/color/constants";
+import { Color } from "models/color/types";
 import { ENTITIES_QUERY_KEY } from "models/entity/constants";
 import { Entity } from "models/entity/types";
 import { FIELDS_QUERY_KEY } from "models/field/constants";
 import { Field } from "models/field/types";
+import { getColors } from "services/color";
 import { getEntities } from "services/entity";
 import { getFields } from "services/field";
 
 import classes from "./styles.module.css";
+import { PageSwitcher } from "./switcher";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Option } = Select;
 
 const MainPage: React.VFC = () => {
-  const page = <section>Page</section>;
+  const [currentEntity, setCurrentEntity] = React.useState<Entity>();
+  const [currentColor, setCurrentColor] = React.useState<Color>();
+  const [currentField, setCurrentField] = React.useState<Field>();
+  const previousEntity = usePrevious(currentEntity);
 
-  const [currentEntity, setCurrentEntity] = React.useState<Entity | "">("");
-  const [currentField, setCurrentField] = React.useState<Field | "">("");
   const { data: entities = [], isLoading: areEntitiesLoading } = useQuery(
     ENTITIES_QUERY_KEY,
     getEntities,
     {
       onSuccess: entities => {
+        const [firstEntity] = entities;
         if (!currentEntity) {
-          setCurrentEntity(entities[0]);
+          setCurrentEntity(firstEntity);
+        }
+      },
+    },
+  );
+
+  const { data: colors = [], isLoading: areColorsLoading } = useQuery(
+    COLORS_QUERY_KEY,
+    getColors,
+    {
+      onSuccess: colors => {
+        const [firstColor] = colors;
+        if (!currentColor) {
+          setCurrentColor(firstColor);
         }
       },
     },
@@ -36,16 +56,27 @@ const MainPage: React.VFC = () => {
     () => getFields(currentEntity as Entity),
     {
       enabled: !!currentEntity,
-      onSuccess: fields => {
-        if (!currentField) {
-          setCurrentField(fields[0]);
-        }
-      },
     },
   );
 
+  React.useEffect(() => {
+    const [firstField] = fields;
+
+    if (!currentField || currentEntity !== previousEntity) {
+      setCurrentField(firstField);
+    }
+  }, [previousEntity, currentEntity, currentField, fields]);
+
   const entitiesMenuItems = entities.map(entity => {
     return <Menu.Item key={entity}>{entity}</Menu.Item>;
+  });
+
+  const colorsSelectOptions = colors.map(color => {
+    return (
+      <Option key={color} value={color}>
+        {color}
+      </Option>
+    );
   });
 
   const fieldsMenuItems = fields.map(field => {
@@ -54,7 +85,7 @@ const MainPage: React.VFC = () => {
 
   return (
     <Spin
-      spinning={areEntitiesLoading || areFieldsLoading}
+      spinning={areEntitiesLoading || areColorsLoading || areFieldsLoading}
       size="large"
       delay={50}
     >
@@ -63,7 +94,7 @@ const MainPage: React.VFC = () => {
           <Menu
             theme="dark"
             mode="horizontal"
-            selectedKeys={[currentEntity]}
+            selectedKeys={currentEntity && [currentEntity]}
             onClick={event => {
               setCurrentEntity(event.key as Entity);
             }}
@@ -77,7 +108,7 @@ const MainPage: React.VFC = () => {
             <Menu
               mode="inline"
               style={{ height: "100%", borderRight: 0 }}
-              selectedKeys={[currentField]}
+              selectedKeys={currentField && [currentField]}
               onClick={event => {
                 setCurrentField(event.key as Field);
               }}
@@ -87,34 +118,21 @@ const MainPage: React.VFC = () => {
           </Sider>
 
           <Content>
-            <Select defaultValue="lucy" style={{ width: 120 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>
-                Disabled
-              </Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select
+              value={currentColor}
+              style={{ width: 120 }}
+              onChange={color => {
+                setCurrentColor(color);
+              }}
+            >
+              {colorsSelectOptions}
             </Select>
 
-            <Select defaultValue="lucy" style={{ width: 120 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>
-                Disabled
-              </Option>
-              <Option value="Yiminghe">yiminghe</Option>
-            </Select>
-
-            <Select defaultValue="lucy" style={{ width: 120 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>
-                Disabled
-              </Option>
-              <Option value="Yiminghe">yiminghe</Option>
-            </Select>
-
-            {page}
+            <PageSwitcher
+              entity={currentEntity}
+              field={currentField}
+              color={currentColor}
+            />
           </Content>
         </Layout>
         <Footer>Footer</Footer>

@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "components/": "/src/components/",
+      "hooks/": "/src/hooks/",
       "models/": "/src/models/",
       "pages/": "/src/pages/",
       "services/": "/src/services/",
