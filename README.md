@@ -1,1 +1,1 @@
-# multi-dependency-page-generator
+# Multi-dependency page generator
