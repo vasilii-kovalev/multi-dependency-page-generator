@@ -1,9 +1,15 @@
-import { Values } from "types/utils";
+type EntityId = string;
 
-import { ENTITY } from "./constants";
+type EntityGroup = string;
 
-type Entity = Values<typeof ENTITY>;
+type EntityGroups = EntityGroup[];
+
+interface Entity {
+  name: string;
+  id: EntityId;
+  groups: EntityGroups;
+}
 
 type Entities = Entity[];
 
-export type { Entity, Entities };
+export type { EntityId, Entity, Entities };

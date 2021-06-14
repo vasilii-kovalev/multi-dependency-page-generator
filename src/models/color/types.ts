@@ -1,9 +1,14 @@
-import { Values } from "types/utils";
+type ColorId = string;
 
-import { COLOR } from "./constants";
+type ColorGroup = string;
 
-type Color = Values<typeof COLOR>;
+type ColorGroups = ColorGroup[];
+interface Color {
+  name: string;
+  id: ColorId;
+  groups: ColorGroups;
+}
 
 type Colors = Color[];
 
-export type { Color, Colors };
+export type { ColorId, Color, Colors };

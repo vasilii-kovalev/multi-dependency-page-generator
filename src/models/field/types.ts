@@ -1,9 +1,15 @@
-import { Post } from "models/post/types";
-import { User } from "models/user/types";
-import { Keys } from "types/utils";
+type FieldId = string;
 
-type Field<Entity extends Post | User = Post | User> = Keys<Entity>;
+type FieldGroup = string;
 
-type Fields<Entity extends Post | User = Post | User> = Field<Entity>[];
+type FieldGroups = FieldGroup[];
 
-export type { Field, Fields };
+interface Field {
+  name: string;
+  id: FieldId;
+  groups: FieldGroups;
+}
+
+type Fields = Field[];
+
+export type { FieldId, Field, Fields };

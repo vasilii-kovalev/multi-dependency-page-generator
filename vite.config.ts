@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [reactRefresh()],
   resolve: {
     alias: {
-      "components/": "/src/components/",
       "hooks/": "/src/hooks/",
+      "mocks/": "/src/mocks/",
       "models/": "/src/models/",
       "pages/": "/src/pages/",
       "services/": "/src/services/",

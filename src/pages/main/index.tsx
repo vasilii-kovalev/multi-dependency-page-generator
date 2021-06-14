@@ -4,11 +4,11 @@ import { useQuery } from "react-query";
 
 import { usePrevious } from "hooks/usePrevious";
 import { COLORS_QUERY_KEY } from "models/color/constants";
-import { Color } from "models/color/types";
+import { ColorId } from "models/color/types";
 import { ENTITIES_QUERY_KEY } from "models/entity/constants";
-import { Entity } from "models/entity/types";
+import { EntityId } from "models/entity/types";
 import { FIELDS_QUERY_KEY } from "models/field/constants";
-import { Field } from "models/field/types";
+import { FieldId } from "models/field/types";
 import { getColors } from "services/color";
 import { getEntities } from "services/entity";
 import { getFields } from "services/field";
@@ -20,10 +20,10 @@ const { Header, Footer, Sider, Content } = Layout;
 const { Option } = Select;
 
 const MainPage: React.VFC = () => {
-  const [currentEntity, setCurrentEntity] = React.useState<Entity>();
-  const [currentColor, setCurrentColor] = React.useState<Color>();
-  const [currentField, setCurrentField] = React.useState<Field>();
-  const previousEntity = usePrevious(currentEntity);
+  const [currentEntityId, setCurrentEntityId] = React.useState<EntityId>();
+  const [currentColorId, setCurrentColorId] = React.useState<ColorId>();
+  const [currentFieldId, setCurrentField] = React.useState<FieldId>();
+  const previousEntityId = usePrevious(currentEntityId);
 
   const { data: entities = [], isLoading: areEntitiesLoading } = useQuery(
     ENTITIES_QUERY_KEY,
@@ -31,8 +31,9 @@ const MainPage: React.VFC = () => {
     {
       onSuccess: entities => {
         const [firstEntity] = entities;
-        if (!currentEntity) {
-          setCurrentEntity(firstEntity);
+
+        if (currentEntityId === undefined) {
+          setCurrentEntityId(firstEntity.id);
         }
       },
     },
@@ -44,43 +45,48 @@ const MainPage: React.VFC = () => {
     {
       onSuccess: colors => {
         const [firstColor] = colors;
-        if (!currentColor) {
-          setCurrentColor(firstColor);
+
+        if (currentColorId === undefined) {
+          setCurrentColorId(firstColor.id);
         }
       },
     },
   );
 
   const { data: fields = [], isLoading: areFieldsLoading } = useQuery(
-    [FIELDS_QUERY_KEY, currentEntity],
-    () => getFields(currentEntity as Entity),
+    [FIELDS_QUERY_KEY, currentEntityId],
+    () => getFields(currentEntityId as EntityId),
     {
-      enabled: !!currentEntity,
+      enabled: Boolean(currentEntityId),
     },
   );
 
   React.useEffect(() => {
     const [firstField] = fields;
 
-    if (!currentField || currentEntity !== previousEntity) {
-      setCurrentField(firstField);
+    if (currentEntityId !== previousEntityId) {
+      setCurrentField(undefined);
     }
-  }, [previousEntity, currentEntity, currentField, fields]);
 
-  const entitiesMenuItems = entities.map(entity => {
-    return <Menu.Item key={entity}>{entity}</Menu.Item>;
+    if (currentFieldId === undefined && firstField !== undefined) {
+      setCurrentField(firstField.id);
+    }
+  }, [previousEntityId, currentEntityId, currentFieldId, fields]);
+
+  const entitiesMenuItems = entities.map(({ name, id }) => {
+    return <Menu.Item key={id}>{name}</Menu.Item>;
   });
 
-  const colorsSelectOptions = colors.map(color => {
+  const colorsSelectOptions = colors.map(({ name, id }) => {
     return (
-      <Option key={color} value={color}>
-        {color}
+      <Option key={id} value={id}>
+        {name}
       </Option>
     );
   });
 
-  const fieldsMenuItems = fields.map(field => {
-    return <Menu.Item key={field}>{field}</Menu.Item>;
+  const fieldsMenuItems = fields.map(({ name, id }) => {
+    return <Menu.Item key={id}>{name}</Menu.Item>;
   });
 
   return (
@@ -94,9 +100,9 @@ const MainPage: React.VFC = () => {
           <Menu
             theme="dark"
             mode="horizontal"
-            selectedKeys={currentEntity && [currentEntity]}
+            selectedKeys={currentEntityId ? [currentEntityId] : undefined}
             onClick={event => {
-              setCurrentEntity(event.key as Entity);
+              setCurrentEntityId(event.key as EntityId);
             }}
           >
             {entitiesMenuItems}
@@ -108,9 +114,9 @@ const MainPage: React.VFC = () => {
             <Menu
               mode="inline"
               style={{ height: "100%", borderRight: 0 }}
-              selectedKeys={currentField && [currentField]}
+              selectedKeys={currentFieldId ? [currentFieldId] : undefined}
               onClick={event => {
-                setCurrentField(event.key as Field);
+                setCurrentField(event.key as FieldId);
               }}
             >
               {fieldsMenuItems}
@@ -118,20 +124,20 @@ const MainPage: React.VFC = () => {
           </Sider>
 
           <Content>
-            <Select
-              value={currentColor}
+            <Select<ColorId>
+              value={currentColorId}
               style={{ width: 120 }}
               onChange={color => {
-                setCurrentColor(color);
+                setCurrentColorId(color);
               }}
             >
               {colorsSelectOptions}
             </Select>
 
             <PageSwitcher
-              entity={currentEntity}
-              field={currentField}
-              color={currentColor}
+              entity={entities.find(({ id }) => id === currentEntityId)}
+              field={fields.find(({ id }) => id === currentFieldId)}
+              color={colors.find(({ id }) => id === currentColorId)}
             />
           </Content>
         </Layout>
