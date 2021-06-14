@@ -3,8 +3,6 @@ import { PAGE_TEMPLATE, TABLE_PERMISSION } from "./constants";
 
 type PageTemplate = Values<typeof PAGE_TEMPLATE>;
 
-type PageTemplateDefault = typeof PAGE_TEMPLATE.default;
-
 type TablePermission = Values<typeof TABLE_PERMISSION>;
 
 type TablePermissions = TablePermission[];
@@ -40,9 +38,20 @@ type TemplateParams<Template extends PageTemplate = PageTemplate> =
     ? TemplateColorPickerParams
     : TemplateDefaultParams;
 
-interface PageConfig<Template extends PageTemplate = PageTemplate> {
+interface PageConfigWithoutParams<
+  Template extends PageTemplate = PageTemplate,
+> {
   template: Template;
+}
+
+interface PageConfigWithParams<Template extends PageTemplate = PageTemplate>
+  extends PageConfigWithoutParams<Template> {
   params: TemplateParams<Template>;
 }
 
-export type { PageConfig, TemplateParams, PageTemplateDefault };
+type PageConfig<Template extends PageTemplate = PageTemplate> =
+  Template extends typeof PAGE_TEMPLATE.custom
+    ? PageConfigWithoutParams<Template>
+    : PageConfigWithParams<Template>;
+
+export type { PageConfig };

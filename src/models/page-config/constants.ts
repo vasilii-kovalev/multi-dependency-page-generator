@@ -9,6 +9,7 @@ const PAGE_TEMPLATE = {
   link: "link",
   // 1 color picker
   colorPicker: "colorPicker",
+  custom: "custom",
 } as const;
 
 const TABLE_PERMISSION = {

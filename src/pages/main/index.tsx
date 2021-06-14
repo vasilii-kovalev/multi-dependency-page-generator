@@ -1,30 +1,20 @@
-import { Layout, Menu, Select, Spin } from "antd";
+import { Layout, Menu, Spin } from "antd";
 import * as React from "react";
 import { useQuery } from "react-query";
 
-import { usePrevious } from "hooks/use-previous";
-import { COLORS_QUERY_KEY } from "models/color/constants";
-import { ColorId } from "models/color/types";
+import { usePageConfig } from "hooks/use-page-config";
 import { ENTITIES_QUERY_KEY } from "models/entity/constants";
 import { EntityId } from "models/entity/types";
-import { FIELDS_QUERY_KEY } from "models/field/constants";
-import { FieldId } from "models/field/types";
-import { getColors } from "services/color";
+import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { getEntities } from "services/entity";
-import { getFields } from "services/field";
+import { TemplateDefault } from "templates/default";
 
 import classes from "./styles.module.css";
-import { PageSwitcher } from "./switcher";
 
-const { Header, Footer, Sider, Content } = Layout;
-const { Option } = Select;
+const { Content, Header, Footer } = Layout;
 
 const MainPage: React.VFC = () => {
   const [currentEntityId, setCurrentEntityId] = React.useState<EntityId>();
-  const [currentFieldId, setCurrentField] = React.useState<FieldId>();
-  const [currentColorId, setCurrentColorId] = React.useState<ColorId>();
-
-  const previousEntityId = usePrevious(currentEntityId);
 
   const { data: entities = [], isLoading: areEntitiesLoading } = useQuery(
     ENTITIES_QUERY_KEY,
@@ -40,62 +30,35 @@ const MainPage: React.VFC = () => {
     },
   );
 
-  const { data: fields = [], isLoading: areFieldsLoading } = useQuery(
-    [FIELDS_QUERY_KEY, { entityId: currentEntityId }],
-    () => getFields(currentEntityId as EntityId),
-    {
-      enabled: Boolean(currentEntityId),
-    },
+  const entity = entities.find(({ id }) => id === currentEntityId);
+
+  const { data: pageConfig } = usePageConfig({
+    entity,
+    enabled: entity !== undefined,
+  });
+
+  let template = (
+    <Layout>
+      <Content></Content>
+    </Layout>
   );
 
-  const { data: colors = [], isLoading: areColorsLoading } = useQuery(
-    COLORS_QUERY_KEY,
-    getColors,
-    {
-      onSuccess: colors => {
-        const [firstColor] = colors;
+  if (pageConfig) {
+    const { template: pageTemplate } = pageConfig;
 
-        if (currentColorId === undefined) {
-          setCurrentColorId(firstColor.id);
-        }
-      },
-    },
-  );
-
-  React.useEffect(() => {
-    const [firstField] = fields;
-
-    if (currentEntityId !== previousEntityId) {
-      setCurrentField(undefined);
+    if (pageTemplate === PAGE_TEMPLATE.default) {
+      template = (
+        <TemplateDefault currentEntityId={currentEntityId} entity={entity} />
+      );
     }
-
-    if (currentFieldId === undefined && firstField !== undefined) {
-      setCurrentField(firstField.id);
-    }
-  }, [previousEntityId, currentEntityId, currentFieldId, fields]);
+  }
 
   const entitiesMenuItems = entities.map(({ name, id }) => {
     return <Menu.Item key={id}>{name}</Menu.Item>;
   });
 
-  const colorsSelectOptions = colors.map(({ name, id }) => {
-    return (
-      <Option key={id} value={id}>
-        {name}
-      </Option>
-    );
-  });
-
-  const fieldsMenuItems = fields.map(({ name, id }) => {
-    return <Menu.Item key={id}>{name}</Menu.Item>;
-  });
-
   return (
-    <Spin
-      spinning={areEntitiesLoading || areColorsLoading || areFieldsLoading}
-      size="large"
-      delay={50}
-    >
+    <Spin spinning={areEntitiesLoading} size="large" delay={50}>
       <Layout className={classes.layout}>
         <Header>
           <Menu
@@ -110,38 +73,7 @@ const MainPage: React.VFC = () => {
           </Menu>
         </Header>
 
-        <Layout>
-          <Sider width={200}>
-            <Menu
-              mode="inline"
-              style={{ height: "100%", borderRight: 0 }}
-              selectedKeys={currentFieldId ? [currentFieldId] : undefined}
-              onClick={event => {
-                setCurrentField(event.key as FieldId);
-              }}
-            >
-              {fieldsMenuItems}
-            </Menu>
-          </Sider>
-
-          <Content>
-            <Select<ColorId>
-              value={currentColorId}
-              style={{ width: 120 }}
-              onChange={color => {
-                setCurrentColorId(color);
-              }}
-            >
-              {colorsSelectOptions}
-            </Select>
-
-            <PageSwitcher
-              entity={entities.find(({ id }) => id === currentEntityId)}
-              field={fields.find(({ id }) => id === currentFieldId)}
-              color={colors.find(({ id }) => id === currentColorId)}
-            />
-          </Content>
-        </Layout>
+        {template}
         <Footer>Footer</Footer>
       </Layout>
     </Spin>

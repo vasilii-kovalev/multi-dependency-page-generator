@@ -9,9 +9,10 @@ interface Props {
   entity?: Entity;
   field?: Field;
   color?: Color;
+  enabled?: boolean;
 }
 
-const usePageConfig = ({ entity, field, color }: Props) => {
+const usePageConfig = ({ entity, field, color, enabled = true }: Props) => {
   return useQuery(
     [
       PAGE_CONFIG_QUERY_KEY,
@@ -34,7 +35,7 @@ const usePageConfig = ({ entity, field, color }: Props) => {
       });
     },
     {
-      enabled: [entity, field, color].every(Boolean),
+      enabled,
     },
   );
 };
