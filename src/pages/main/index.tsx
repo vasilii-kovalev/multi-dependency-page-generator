@@ -2,7 +2,7 @@ import { Layout, Menu, Select, Spin } from "antd";
 import * as React from "react";
 import { useQuery } from "react-query";
 
-import { usePrevious } from "hooks/usePrevious";
+import { usePrevious } from "hooks/use-previous";
 import { COLORS_QUERY_KEY } from "models/color/constants";
 import { ColorId } from "models/color/types";
 import { ENTITIES_QUERY_KEY } from "models/entity/constants";

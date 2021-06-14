@@ -1,6 +1,6 @@
 import { EntityId } from "models/entity/types";
 import { Fields } from "models/field/types";
-import { getEndpoint } from "utils/getEndpoint";
+import { getEndpoint } from "utils/get-endpoint";
 
 import { api } from "./api";
 

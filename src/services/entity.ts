@@ -1,5 +1,5 @@
 import { Entities } from "models/entity/types";
-import { getEndpoint } from "utils/getEndpoint";
+import { getEndpoint } from "utils/get-endpoint";
 
 import { api } from "./api";
 
