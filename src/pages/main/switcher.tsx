@@ -1,4 +1,12 @@
+import { Spin } from "antd";
 import * as React from "react";
+import { useQuery } from "react-query";
+
+import { Entity } from "models/entity/types";
+import { Field } from "models/field/types";
+import { Color } from "models/color/types";
+import { PAGE_CONFIG_QUERY_KEY } from "models/page-config/constants";
+import { getPageConfig } from "services/page-config";
 
 import { PageSwitcherProps } from "./types";
 
@@ -9,40 +17,47 @@ const PageSwitcher: React.VFC<PageSwitcherProps> = ({
   field,
   color,
 }) => {
-  if (!entity || !field || !color) {
-    return <DefaultPage />;
+  const isDataDefined = [entity, field, color].every(Boolean);
+
+  const { data: pageConfig, isLoading: isPageConfigLoading } = useQuery(
+    [
+      PAGE_CONFIG_QUERY_KEY,
+      {
+        entityId: entity?.id,
+        fieldId: field?.id,
+        colorId: color?.id,
+      },
+    ],
+    () => {
+      // Undefined is impossible because of `enabled` condition.
+      const entityTyped = entity as Entity;
+      const fieldTyped = field as Field;
+      const colorTyped = color as Color;
+
+      return getPageConfig({
+        entity: entityTyped,
+        field: fieldTyped,
+        color: colorTyped,
+      });
+    },
+    {
+      enabled: isDataDefined,
+    },
+  );
+
+  if (!isDataDefined) {
+    return (
+      <Spin spinning={isPageConfigLoading} size="large" delay={50}>
+        <DefaultPage />
+      </Spin>
+    );
   }
 
-  const { groups: entityGroups } = entity;
-  const { groups: fieldGroups } = field;
-  const { groups: colorGroups } = color;
-
-  /*
-    Expected, that's this is the only place on front-end side where specific
-    values are used. That's why there are no any entity/field/color values maps.
-    The specific values can be found in `mocks/handlers/(entity/field/color)/*.
-  */
-  if (entityGroups.includes("default")) {
-    if (fieldGroups.includes("default")) {
-      return <h2>Default entity-field page</h2>;
-    }
-
-    if (fieldGroups.includes("custom")) {
-      if (colorGroups.includes("custom")) {
-        return <h2>Custom entity-field-color page</h2>;
-      }
-
-      return <h2>Custom entity-field page</h2>;
-    }
-
-    return <h2>Default entity page</h2>;
-  }
-
-  if (entityGroups.includes("custom")) {
-    return <h2>Custom entity page</h2>;
-  }
-
-  return <DefaultPage />;
+  return (
+    <Spin spinning={isPageConfigLoading} size="large" delay={50}>
+      <DefaultPage />
+    </Spin>
+  );
 };
 
 export { PageSwitcher };

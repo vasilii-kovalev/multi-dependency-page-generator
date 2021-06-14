@@ -16,4 +16,4 @@ interface ColorRaw extends Color {
 
 type ColorsRaw = ColorRaw[];
 
-export type { ColorsRaw };
+export type { ColorRaw, ColorsRaw };

@@ -21,8 +21,9 @@ const { Option } = Select;
 
 const MainPage: React.VFC = () => {
   const [currentEntityId, setCurrentEntityId] = React.useState<EntityId>();
-  const [currentColorId, setCurrentColorId] = React.useState<ColorId>();
   const [currentFieldId, setCurrentField] = React.useState<FieldId>();
+  const [currentColorId, setCurrentColorId] = React.useState<ColorId>();
+
   const previousEntityId = usePrevious(currentEntityId);
 
   const { data: entities = [], isLoading: areEntitiesLoading } = useQuery(
@@ -39,6 +40,14 @@ const MainPage: React.VFC = () => {
     },
   );
 
+  const { data: fields = [], isLoading: areFieldsLoading } = useQuery(
+    [FIELDS_QUERY_KEY, { entityId: currentEntityId }],
+    () => getFields(currentEntityId as EntityId),
+    {
+      enabled: Boolean(currentEntityId),
+    },
+  );
+
   const { data: colors = [], isLoading: areColorsLoading } = useQuery(
     COLORS_QUERY_KEY,
     getColors,
@@ -50,14 +59,6 @@ const MainPage: React.VFC = () => {
           setCurrentColorId(firstColor.id);
         }
       },
-    },
-  );
-
-  const { data: fields = [], isLoading: areFieldsLoading } = useQuery(
-    [FIELDS_QUERY_KEY, currentEntityId],
-    () => getFields(currentEntityId as EntityId),
-    {
-      enabled: Boolean(currentEntityId),
     },
   );
 

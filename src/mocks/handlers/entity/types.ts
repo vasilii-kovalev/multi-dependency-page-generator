@@ -16,4 +16,4 @@ interface EntityRaw extends Entity {
 
 type EntitiesRaw = EntityRaw[];
 
-export type { EntitiesRaw };
+export type { EntityRaw, EntitiesRaw };

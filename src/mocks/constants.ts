@@ -1,3 +1,3 @@
-const DEFAULT_DELAY = 1000;
+const DEFAULT_DELAY = 500;
 
 export { DEFAULT_DELAY };

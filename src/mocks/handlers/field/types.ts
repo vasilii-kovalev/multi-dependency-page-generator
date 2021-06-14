@@ -17,4 +17,4 @@ interface FieldRaw extends Field {
 
 type FieldsRaw = FieldRaw[];
 
-export type { FieldsRaw };
+export type { FieldRaw, FieldsRaw };
