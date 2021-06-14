@@ -8,21 +8,33 @@ type TablePermission = Values<typeof TABLE_PERMISSION>;
 type TablePermissions = TablePermission[];
 
 interface TableParams {
-  // For data and columns fetching
+  // For data and columns fetching.
   prefix: string;
   permissions: TablePermissions;
 }
 
 interface TemplateDefaultParams {
-  tableParams: TableParams[];
+  tables: TableParams[];
+}
+
+interface Image {
+  url: string;
+  description: string;
+}
+
+interface Link {
+  url: string;
+  text: string;
 }
 
 interface TemplateUsersDefaultParams {
-  urls: [string, string];
+  image: Image;
+  links: [Link, Link];
 }
 
 interface TemplateLinkParams {
-  url: string;
+  images: [Image, Image];
+  link: Link;
 }
 
 interface TemplateColorPickerParams {
