@@ -24,6 +24,7 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
     const column: ColumnType<any> = {
       dataIndex: id,
       title: name,
+      width: "50%",
     };
 
     return column;
@@ -51,7 +52,7 @@ const TemplateTables: React.VFC<TemplateProps> = ({ pageConfig }) => {
     params: { tables },
   } = pageConfig;
 
-  const tableComponents = [tables[0]].map(tableParams => {
+  const tableComponents = tables.map(tableParams => {
     return <TableComponent params={tableParams} />;
   });
 
