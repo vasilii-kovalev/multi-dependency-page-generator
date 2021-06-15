@@ -2,7 +2,6 @@ import { ResponseComposition, rest, RestContext } from "msw";
 
 import { DEFAULT_DELAY } from "mocks/constants";
 import { PAGE_TEMPLATE } from "models/page-config/constants";
-import { PageConfig } from "models/page-config/types";
 import { getPageConfigEndpoint } from "services/page-config";
 
 import { COLOR_ID } from "../colors/constants";
@@ -11,7 +10,9 @@ import { ENTITY_ID } from "../entity/constants";
 import { EntityRaw } from "../entity/types";
 import { FIELD_ID } from "../field/constants";
 import { FieldRaw } from "../field/types";
-import { RequestBody } from "./types";
+import { PageConfig, RequestBody } from "./types";
+import { TABLE_ID } from "../table/constants";
+import { TABLE_PERMISSION } from "models/table/constants";
 
 const isEntityValid = (entity: EntityRaw | undefined): entity is EntityRaw =>
   Object.values(ENTITY_ID).includes(entity?.id as EntityRaw["id"]);
@@ -67,32 +68,122 @@ const handleEntityAndField = (
     const { id: entityId } = entity;
     const { id: fieldId } = field;
 
-    if (entityId === ENTITY_ID.posts && fieldId === FIELD_ID.body) {
-      const pageConfig: PageConfig<typeof PAGE_TEMPLATE.link> = {
-        template: PAGE_TEMPLATE.link,
-        params: {
-          images: [
-            {
-              url: "https://i.imgur.com/NjcarfN.jpeg",
-              description: "Woman yelling at a cat - Star Wars version",
-            },
-            {
-              url: "https://pbs.twimg.com/media/ErTXkrEWMAQ6GJo.jpg",
-              description: "Software development joke",
-            },
-          ],
-          link: {
-            url: "https://whocanuse.com/",
-            text: "WhoCanUse",
+    if (entityId === ENTITY_ID.posts) {
+      if (fieldId === FIELD_ID.userId) {
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.default> = {
+          template: PAGE_TEMPLATE.default,
+          params: {
+            tables: [
+              {
+                id: TABLE_ID.table1,
+                columns: [
+                  {
+                    id: "id",
+                    name: "Id",
+                  },
+                  {
+                    id: "name",
+                    name: "Name",
+                  },
+                ],
+                permissions: [TABLE_PERMISSION.read],
+              },
+              {
+                id: TABLE_ID.table2,
+                columns: [
+                  {
+                    id: "username",
+                    name: "Username",
+                  },
+                  {
+                    id: "email",
+                    name: "Email",
+                  },
+                ],
+                permissions: [TABLE_PERMISSION.read],
+              },
+            ],
           },
-        },
-      };
+        };
 
-      return response(
-        context.status(200),
-        context.delay(DEFAULT_DELAY),
-        context.json(pageConfig),
-      );
+        return response(
+          context.status(200),
+          context.delay(DEFAULT_DELAY),
+          context.json(pageConfig),
+        );
+      }
+
+      if (fieldId === FIELD_ID.id) {
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.default> = {
+          template: PAGE_TEMPLATE.default,
+          params: {
+            tables: [
+              {
+                id: TABLE_ID.table3,
+                columns: [
+                  {
+                    id: "phone",
+                    name: "Phone",
+                  },
+                  {
+                    id: "website",
+                    name: "Website",
+                  },
+                ],
+                permissions: [TABLE_PERMISSION.read],
+              },
+              {
+                id: TABLE_ID.table4,
+                columns: [
+                  {
+                    id: "companyName",
+                    name: "Company Name",
+                  },
+                  {
+                    id: "addressStreet",
+                    name: "Address Street",
+                  },
+                ],
+                permissions: [TABLE_PERMISSION.read],
+              },
+            ],
+          },
+        };
+
+        return response(
+          context.status(200),
+          context.delay(DEFAULT_DELAY),
+          context.json(pageConfig),
+        );
+      }
+
+      if (fieldId === FIELD_ID.body) {
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.link> = {
+          template: PAGE_TEMPLATE.link,
+          params: {
+            images: [
+              {
+                url: "https://rus11.files.wordpress.com/2017/02/prdkshn.png",
+                description: "That's fine",
+              },
+              {
+                url: "https://pbs.twimg.com/media/ErTXkrEWMAQ6GJo.jpg",
+                description: "Software development joke",
+              },
+            ],
+            link: {
+              url: "https://whocanuse.com/",
+              text: "WhoCanUse",
+            },
+          },
+        };
+
+        return response(
+          context.status(200),
+          context.delay(DEFAULT_DELAY),
+          context.json(pageConfig),
+        );
+      }
     }
   }
 
@@ -105,21 +196,6 @@ const handleEntityOnly = (
   entity: EntityRaw,
 ) => {
   const { id: entityId } = entity;
-
-  if (entityId === ENTITY_ID.posts) {
-    const pageConfig: PageConfig<typeof PAGE_TEMPLATE.default> = {
-      template: PAGE_TEMPLATE.default,
-      params: {
-        tables: [],
-      },
-    };
-
-    return response(
-      context.status(200),
-      context.delay(DEFAULT_DELAY),
-      context.json(pageConfig),
-    );
-  }
 
   if (entityId === ENTITY_ID.users) {
     const pageConfig: PageConfig<typeof PAGE_TEMPLATE.usersDefault> = {

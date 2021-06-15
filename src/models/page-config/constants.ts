@@ -12,9 +12,4 @@ const PAGE_TEMPLATE = {
   custom: "custom",
 } as const;
 
-const TABLE_PERMISSION = {
-  read: "read",
-  write: "write",
-} as const;
-
-export { QUERY_KEY as PAGE_CONFIG_QUERY_KEY, PAGE_TEMPLATE, TABLE_PERMISSION };
+export { QUERY_KEY as PAGE_CONFIG_QUERY_KEY, PAGE_TEMPLATE };

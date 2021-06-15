@@ -170,7 +170,7 @@ const MainPage: React.VFC = () => {
 
     if (pageTemplate === PAGE_TEMPLATE.default) {
       const typedConfig = pageConfig as PageConfig<
-        typeof PAGE_TEMPLATE.usersDefault
+        typeof PAGE_TEMPLATE.default
       >;
 
       template = <TemplateDefault pageConfig={typedConfig} />;

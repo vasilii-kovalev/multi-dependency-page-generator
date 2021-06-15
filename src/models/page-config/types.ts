@@ -1,20 +1,19 @@
+import { TableColumns, TableId, TablePermissions } from "models/table/types";
 import { Values } from "types/utils";
-import { PAGE_TEMPLATE, TABLE_PERMISSION } from "./constants";
+
+import { PAGE_TEMPLATE } from "./constants";
 
 type PageTemplate = Values<typeof PAGE_TEMPLATE>;
 
-type TablePermission = Values<typeof TABLE_PERMISSION>;
-
-type TablePermissions = TablePermission[];
-
 interface TableParams {
   // For data and columns fetching.
-  prefix: string;
+  id: TableId;
+  columns: TableColumns;
   permissions: TablePermissions;
 }
 
 interface TemplateDefaultParams {
-  tables: TableParams[];
+  tables: [TableParams, TableParams];
 }
 
 interface Image {
@@ -66,4 +65,4 @@ type PageConfig<Template extends PageTemplate = PageTemplate> =
     ? PageConfigWithoutParams<Template>
     : PageConfigWithParams<Template>;
 
-export type { PageConfig };
+export type { PageConfig, TableParams };
