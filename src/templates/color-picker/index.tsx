@@ -3,11 +3,11 @@ import * as React from "react";
 import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { PageConfig } from "models/page-config/types";
 
-interface Props {
+interface TemplateProps {
   pageConfig: PageConfig<typeof PAGE_TEMPLATE.colorPicker>;
 }
 
-const TemplateColorPicker: React.VFC<Props> = ({ pageConfig }) => {
+const TemplateColorPicker: React.VFC<TemplateProps> = ({ pageConfig }) => {
   const {
     params: { color },
   } = pageConfig;

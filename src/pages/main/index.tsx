@@ -19,10 +19,11 @@ import { getEntities } from "services/entity";
 import { getFields } from "services/field";
 import { getPageConfig } from "services/page-config";
 import { TemplateColorPicker } from "templates/color-picker";
-import { TemplateCustomVariables } from "templates/custom-variables";
-import { TemplateDefault } from "templates/default";
-import { TemplateLink } from "templates/link";
-import { TemplateUsersDefault } from "templates/users-default";
+import { TemplateCustom } from "templates/custom";
+import { TemplateEmpty } from "templates/empty";
+import { TemplateImageAndLinks } from "templates/image-and-links";
+import { TemplateImagesAndLink } from "templates/images-and-link";
+import { TemplateTables } from "templates/tables";
 
 import classes from "./styles.module.css";
 
@@ -155,35 +156,35 @@ const MainPage: React.VFC = () => {
     const { template: pageTemplate } = pageConfig;
 
     if (pageTemplate === PAGE_TEMPLATE.custom) {
-      if (currentEntityId === "variables") {
-        return (
-          <MainLayout>
-            <Layout style={{ padding: 20, backgroundColor: "white" }}>
-              <Content>
-                <TemplateCustomVariables />
-              </Content>
-            </Layout>
-          </MainLayout>
-        );
-      }
+      return (
+        <MainLayout>
+          <Layout style={{ padding: 20, backgroundColor: "white" }}>
+            <Content>
+              <TemplateCustom />
+            </Content>
+          </Layout>
+        </MainLayout>
+      );
     }
 
-    if (pageTemplate === PAGE_TEMPLATE.default) {
+    if (pageTemplate === PAGE_TEMPLATE.empty) {
+      template = <TemplateEmpty />;
+    } else if (pageTemplate === PAGE_TEMPLATE.tables) {
+      const typedConfig = pageConfig as PageConfig<typeof PAGE_TEMPLATE.tables>;
+
+      template = <TemplateTables pageConfig={typedConfig} />;
+    } else if (pageTemplate === PAGE_TEMPLATE.imageAndLinks) {
       const typedConfig = pageConfig as PageConfig<
-        typeof PAGE_TEMPLATE.default
+        typeof PAGE_TEMPLATE.imageAndLinks
       >;
 
-      template = <TemplateDefault pageConfig={typedConfig} />;
-    } else if (pageTemplate === PAGE_TEMPLATE.usersDefault) {
+      template = <TemplateImageAndLinks pageConfig={typedConfig} />;
+    } else if (pageTemplate === PAGE_TEMPLATE.imagesAndLink) {
       const typedConfig = pageConfig as PageConfig<
-        typeof PAGE_TEMPLATE.usersDefault
+        typeof PAGE_TEMPLATE.imagesAndLink
       >;
 
-      template = <TemplateUsersDefault pageConfig={typedConfig} />;
-    } else if (pageTemplate === PAGE_TEMPLATE.link) {
-      const typedConfig = pageConfig as PageConfig<typeof PAGE_TEMPLATE.link>;
-
-      template = <TemplateLink pageConfig={typedConfig} />;
+      template = <TemplateImagesAndLink pageConfig={typedConfig} />;
     } else if (pageTemplate === PAGE_TEMPLATE.colorPicker) {
       const typedConfig = pageConfig as PageConfig<
         typeof PAGE_TEMPLATE.colorPicker

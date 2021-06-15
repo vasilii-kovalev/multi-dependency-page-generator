@@ -70,8 +70,8 @@ const handleEntityAndField = (
 
     if (entityId === ENTITY_ID.posts) {
       if (fieldId === FIELD_ID.userId) {
-        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.default> = {
-          template: PAGE_TEMPLATE.default,
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.tables> = {
+          template: PAGE_TEMPLATE.tables,
           params: {
             tables: [
               {
@@ -114,8 +114,8 @@ const handleEntityAndField = (
       }
 
       if (fieldId === FIELD_ID.id) {
-        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.default> = {
-          template: PAGE_TEMPLATE.default,
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.tables> = {
+          template: PAGE_TEMPLATE.tables,
           params: {
             tables: [
               {
@@ -158,8 +158,8 @@ const handleEntityAndField = (
       }
 
       if (fieldId === FIELD_ID.body) {
-        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.link> = {
-          template: PAGE_TEMPLATE.link,
+        const pageConfig: PageConfig<typeof PAGE_TEMPLATE.imagesAndLink> = {
+          template: PAGE_TEMPLATE.imagesAndLink,
           params: {
             images: [
               {
@@ -197,9 +197,21 @@ const handleEntityOnly = (
 ) => {
   const { id: entityId } = entity;
 
+  if (entityId === ENTITY_ID.posts) {
+    const pageConfig: PageConfig<typeof PAGE_TEMPLATE.empty> = {
+      template: PAGE_TEMPLATE.empty,
+    };
+
+    return response(
+      context.status(200),
+      context.delay(DEFAULT_DELAY),
+      context.json(pageConfig),
+    );
+  }
+
   if (entityId === ENTITY_ID.users) {
-    const pageConfig: PageConfig<typeof PAGE_TEMPLATE.usersDefault> = {
-      template: PAGE_TEMPLATE.usersDefault,
+    const pageConfig: PageConfig<typeof PAGE_TEMPLATE.imageAndLinks> = {
+      template: PAGE_TEMPLATE.imageAndLinks,
       params: {
         image: {
           url: "https://telegra.ph/file/c1bde7af4a7c021fc5d87.jpg",

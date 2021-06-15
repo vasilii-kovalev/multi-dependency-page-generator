@@ -3,11 +3,11 @@ import * as React from "react";
 import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { PageConfig } from "models/page-config/types";
 
-interface Props {
-  pageConfig: PageConfig<typeof PAGE_TEMPLATE.usersDefault>;
+interface TemplateProps {
+  pageConfig: PageConfig<typeof PAGE_TEMPLATE.imageAndLinks>;
 }
 
-const TemplateUsersDefault: React.VFC<Props> = ({ pageConfig }) => {
+const TemplateImageAndLinks: React.VFC<TemplateProps> = ({ pageConfig }) => {
   const {
     params: {
       image: { url: imageUrl, description: imageDescription },
@@ -24,7 +24,7 @@ const TemplateUsersDefault: React.VFC<Props> = ({ pageConfig }) => {
 
   return (
     <>
-      <h2>Users default template</h2>
+      <h2>Image and links template</h2>
 
       <img src={imageUrl} alt={imageDescription} height={300} />
 
@@ -33,4 +33,4 @@ const TemplateUsersDefault: React.VFC<Props> = ({ pageConfig }) => {
   );
 };
 
-export { TemplateUsersDefault };
+export { TemplateImageAndLinks };

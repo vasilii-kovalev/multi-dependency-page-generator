@@ -12,7 +12,7 @@ interface TableParams {
   permissions: TablePermissions;
 }
 
-interface TemplateDefaultParams {
+interface TemplateTablesParams {
   tables: [TableParams, TableParams];
 }
 
@@ -26,12 +26,12 @@ interface Link {
   text: string;
 }
 
-interface TemplateUsersDefaultParams {
+interface TemplateImageAndLinksParams {
   image: Image;
   links: [Link, Link];
 }
 
-interface TemplateLinkParams {
+interface TemplateImagesAndLinkParams {
   images: [Image, Image];
   link: Link;
 }
@@ -41,13 +41,13 @@ interface TemplateColorPickerParams {
 }
 
 type TemplateParams<Template extends PageTemplate = PageTemplate> =
-  Template extends typeof PAGE_TEMPLATE.usersDefault
-    ? TemplateUsersDefaultParams
-    : Template extends typeof PAGE_TEMPLATE.link
-    ? TemplateLinkParams
+  Template extends typeof PAGE_TEMPLATE.imageAndLinks
+    ? TemplateImageAndLinksParams
+    : Template extends typeof PAGE_TEMPLATE.imagesAndLink
+    ? TemplateImagesAndLinkParams
     : Template extends typeof PAGE_TEMPLATE.colorPicker
     ? TemplateColorPickerParams
-    : TemplateDefaultParams;
+    : TemplateTablesParams;
 
 interface PageConfigWithoutParams<
   Template extends PageTemplate = PageTemplate,
@@ -61,7 +61,9 @@ interface PageConfigWithParams<Template extends PageTemplate = PageTemplate>
 }
 
 type PageConfig<Template extends PageTemplate = PageTemplate> =
-  Template extends typeof PAGE_TEMPLATE.custom
+  Template extends typeof PAGE_TEMPLATE.empty
+    ? PageConfigWithoutParams<Template>
+    : Template extends typeof PAGE_TEMPLATE.custom
     ? PageConfigWithoutParams<Template>
     : PageConfigWithParams<Template>;
 

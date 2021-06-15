@@ -23,6 +23,7 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
   const columnsAdjusted = columns.map(({ id, name }) => {
     const column: ColumnType<any> = {
       dataIndex: id,
+      key: id,
       title: name,
     };
 
@@ -37,15 +38,20 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
       dataSource={tableData}
       loading={isTableDataLoading}
       pagination={false}
+      rowKey={(record, index = 0) => {
+        const columnId = columns[index].id;
+
+        return `${columnId}-${index}`;
+      }}
     />
   );
 };
 
-interface Props {
-  pageConfig: PageConfig<typeof PAGE_TEMPLATE.default>;
+interface TemplateProps {
+  pageConfig: PageConfig<typeof PAGE_TEMPLATE.tables>;
 }
 
-const TemplateDefault: React.VFC<Props> = ({ pageConfig }) => {
+const TemplateTables: React.VFC<TemplateProps> = ({ pageConfig }) => {
   const {
     params: { tables },
   } = pageConfig;
@@ -56,7 +62,7 @@ const TemplateDefault: React.VFC<Props> = ({ pageConfig }) => {
 
   return (
     <>
-      <h2>Default template</h2>
+      <h2>Tables template</h2>
 
       <Space direction="vertical" size={32} style={{ width: "100%" }}>
         {tableComponents}
@@ -65,4 +71,4 @@ const TemplateDefault: React.VFC<Props> = ({ pageConfig }) => {
   );
 };
 
-export { TemplateDefault };
+export { TemplateTables };

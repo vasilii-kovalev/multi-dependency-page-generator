@@ -3,11 +3,11 @@ import * as React from "react";
 import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { PageConfig } from "models/page-config/types";
 
-interface Props {
-  pageConfig: PageConfig<typeof PAGE_TEMPLATE.link>;
+interface TemplateProps {
+  pageConfig: PageConfig<typeof PAGE_TEMPLATE.imagesAndLink>;
 }
 
-const TemplateLink: React.VFC<Props> = ({ pageConfig }) => {
+const TemplateImagesAndLink: React.VFC<TemplateProps> = ({ pageConfig }) => {
   const {
     params: {
       images,
@@ -20,7 +20,7 @@ const TemplateLink: React.VFC<Props> = ({ pageConfig }) => {
 
   return (
     <>
-      <h2>Link template</h2>
+      <h2>Images and link template</h2>
 
       {imageComponents}
 
@@ -31,4 +31,4 @@ const TemplateLink: React.VFC<Props> = ({ pageConfig }) => {
   );
 };
 
-export { TemplateLink };
+export { TemplateImagesAndLink };

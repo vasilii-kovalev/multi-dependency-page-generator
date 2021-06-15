@@ -1,15 +1,16 @@
 const QUERY_KEY = "page-config";
 
 const PAGE_TEMPLATE = {
+  empty: "empty",
+  custom: "custom",
   // 2 tables
-  default: "default",
-  // 1 picture and 2 links
-  usersDefault: "usersDefault",
-  // 1 link
-  link: "link",
+  tables: "tables",
+  // 1 image and 2 links
+  imageAndLinks: "imageAndLinks",
+  // 2 images and 1 link
+  imagesAndLink: "imagesAndLink",
   // 1 color picker
   colorPicker: "colorPicker",
-  custom: "custom",
 } as const;
 
 export { QUERY_KEY as PAGE_CONFIG_QUERY_KEY, PAGE_TEMPLATE };
