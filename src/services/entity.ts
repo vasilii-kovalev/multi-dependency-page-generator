@@ -11,4 +11,4 @@ const getEntities = async (): Promise<Entities> => {
   return data;
 };
 
-export { getEntitiesEndpoint, getEntities };
+export { getEntities, getEntitiesEndpoint };

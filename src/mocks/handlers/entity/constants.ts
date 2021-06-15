@@ -9,4 +9,4 @@ const ENTITY_GROUP = {
   default: "default",
 } as const;
 
-export { ENTITY_ID, ENTITY_GROUP };
+export { ENTITY_GROUP, ENTITY_ID };

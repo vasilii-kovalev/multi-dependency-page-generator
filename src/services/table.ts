@@ -23,4 +23,4 @@ const getTableData = async (tableId: TableId): Promise<TableColumns> => {
   return data;
 };
 
-export { getTableDataEndpoint, getTableData, TABLE_ID_QUERY_PARAMETER };
+export { TABLE_ID_QUERY_PARAMETER, getTableData, getTableDataEndpoint };

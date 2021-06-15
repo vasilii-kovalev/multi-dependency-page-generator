@@ -2,8 +2,9 @@ import { rest } from "msw";
 
 import { DEFAULT_DELAY } from "mocks/constants";
 import { getTableDataEndpoint, TABLE_ID_QUERY_PARAMETER } from "services/table";
+
 import { TABLE_ID } from "./constants";
-import { TableData } from "models/table/types";
+import { TableData } from "./types";
 
 const getTableData = rest.get(
   getTableDataEndpoint,

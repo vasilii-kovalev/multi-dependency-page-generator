@@ -3,10 +3,10 @@ import { rest } from "msw";
 import { DEFAULT_DELAY } from "mocks/constants";
 import { getColorsEndpoint } from "services/color";
 
-import { ColorsRaw } from "./types";
+import { Colors } from "./types";
 
 const getColors = rest.get(getColorsEndpoint, (request, response, context) => {
-  const colors: ColorsRaw = [
+  const colors: Colors = [
     {
       name: "White",
       id: "white",

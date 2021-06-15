@@ -11,4 +11,4 @@ const COLOR_GROUP = {
   default: "default",
 } as const;
 
-export { COLOR_ID, COLOR_GROUP };
+export { COLOR_GROUP, COLOR_ID };

@@ -12,4 +12,4 @@ interface Field {
 
 type Fields = Field[];
 
-export type { FieldId, Field, Fields };
+export type { Field, FieldId, Fields };

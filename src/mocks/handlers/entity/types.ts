@@ -1,4 +1,4 @@
-import { Entity } from "models/entity/types";
+import { Entity as EntityFrontEnd } from "models/entity/types";
 import { Values } from "types/utils";
 
 import { ENTITY_GROUP, ENTITY_ID } from "./constants";
@@ -9,11 +9,11 @@ type EntityGroup = Values<typeof ENTITY_GROUP>;
 
 type EntityGroups = EntityGroup[];
 
-interface EntityRaw extends Entity {
+interface Entity extends EntityFrontEnd {
   id: EntityId;
   groups: EntityGroups;
 }
 
-type EntitiesRaw = EntityRaw[];
+type Entities = Entity[];
 
-export type { EntityRaw, EntitiesRaw };
+export type { Entity, Entities };

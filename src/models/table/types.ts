@@ -11,12 +11,8 @@ interface TableColumn {
 
 type TableColumns = TableColumn[];
 
-type TableDataItem = Record<string, string | boolean | number>;
-
-type TableData = TableDataItem[];
-
 type TablePermission = Values<typeof TABLE_PERMISSION>;
 
 type TablePermissions = TablePermission[];
 
-export type { TableColumns, TablePermissions, TableId, TableData };
+export type { TableColumns, TableId, TablePermissions };

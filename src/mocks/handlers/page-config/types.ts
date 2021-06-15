@@ -1,13 +1,16 @@
 import { PAGE_TEMPLATE } from "models/page-config/constants";
-import { TableColumns, TablePermissions } from "models/table/types";
-import { Values } from "types/utils";
+import {
+  Image,
+  Link,
+  PageConfigWithoutParams,
+  PageTemplate,
+  TemplateColorPickerParams,
+} from "models/page-config/types";
 
-import { ColorRaw } from "../colors/types";
-import { EntityRaw } from "../entity/types";
-import { FieldRaw } from "../field/types";
-import { TableId } from "../table/types";
-
-type PageTemplate = Values<typeof PAGE_TEMPLATE>;
+import { Color } from "../colors/types";
+import { Entity } from "../entity/types";
+import { Field } from "../field/types";
+import { TableColumns, TableId, TablePermissions } from "../table/types";
 
 interface TableParams {
   // For data and columns fetching.
@@ -20,16 +23,6 @@ interface TemplateTablesParams {
   tables: [TableParams, TableParams];
 }
 
-interface Image {
-  url: string;
-  description: string;
-}
-
-interface Link {
-  url: string;
-  text: string;
-}
-
 interface TemplateImageAndLinksParams {
   image: Image;
   links: [Link, Link];
@@ -40,10 +33,6 @@ interface TemplateImagesAndLinkParams {
   link: Link;
 }
 
-interface TemplateColorPickerParams {
-  color: string;
-}
-
 type TemplateParams<Template extends PageTemplate = PageTemplate> =
   Template extends typeof PAGE_TEMPLATE.imageAndLinks
     ? TemplateImageAndLinksParams
@@ -52,12 +41,6 @@ type TemplateParams<Template extends PageTemplate = PageTemplate> =
     : Template extends typeof PAGE_TEMPLATE.colorPicker
     ? TemplateColorPickerParams
     : TemplateTablesParams;
-
-interface PageConfigWithoutParams<
-  Template extends PageTemplate = PageTemplate,
-> {
-  template: Template;
-}
 
 interface PageConfigWithParams<Template extends PageTemplate = PageTemplate>
   extends PageConfigWithoutParams<Template> {
@@ -71,16 +54,14 @@ type PageConfig<Template extends PageTemplate = PageTemplate> =
     ? PageConfigWithoutParams<Template>
     : PageConfigWithParams<Template>;
 
-export type { PageConfig };
-
 interface RequestBody {
   /*
     Fields are marked as "optional" to create correct validation and thus avoid
     internal server errors.
   */
-  entity?: EntityRaw;
-  field?: FieldRaw;
-  color?: ColorRaw;
+  entity?: Entity;
+  field?: Field;
+  color?: Color;
 }
 
-export type { RequestBody };
+export type { PageConfig, RequestBody };

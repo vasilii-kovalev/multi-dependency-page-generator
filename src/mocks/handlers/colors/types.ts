@@ -1,4 +1,4 @@
-import { Color } from "models/color/types";
+import { Color as ColorFrontEnd } from "models/color/types";
 import { Values } from "types/utils";
 
 import { COLOR_ID, COLOR_GROUP } from "./constants";
@@ -9,11 +9,11 @@ type ColorGroup = Values<typeof COLOR_GROUP>;
 
 type ColorGroups = ColorGroup[];
 
-interface ColorRaw extends Color {
+interface Color extends ColorFrontEnd {
   id: ColorId;
   groups: ColorGroups;
 }
 
-type ColorsRaw = ColorRaw[];
+type Colors = Color[];
 
-export type { ColorRaw, ColorsRaw };
+export type { Color, Colors };

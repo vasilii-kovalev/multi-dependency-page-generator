@@ -1,34 +1,33 @@
 import { ResponseComposition, rest, RestContext } from "msw";
 
 import { DEFAULT_DELAY } from "mocks/constants";
-import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { getPageConfigEndpoint } from "services/page-config";
 
 import { COLOR_ID } from "../colors/constants";
-import { ColorRaw } from "../colors/types";
+import { Color } from "../colors/types";
 import { ENTITY_ID } from "../entity/constants";
-import { EntityRaw } from "../entity/types";
+import { Entity } from "../entity/types";
 import { FIELD_ID } from "../field/constants";
-import { FieldRaw } from "../field/types";
+import { Field } from "../field/types";
+import { TABLE_ID, TABLE_PERMISSION } from "../table/constants";
+import { PAGE_TEMPLATE } from "./constants";
 import { PageConfig, RequestBody } from "./types";
-import { TABLE_ID } from "../table/constants";
-import { TABLE_PERMISSION } from "models/table/constants";
 
-const isEntityValid = (entity: EntityRaw | undefined): entity is EntityRaw =>
-  Object.values(ENTITY_ID).includes(entity?.id as EntityRaw["id"]);
+const isEntityValid = (entity: Entity | undefined): entity is Entity =>
+  Object.values(ENTITY_ID).includes(entity?.id as Entity["id"]);
 
-const isFieldValid = (field: FieldRaw | undefined): field is FieldRaw =>
-  Object.values(FIELD_ID).includes(field?.id as FieldRaw["id"]);
+const isFieldValid = (field: Field | undefined): field is Field =>
+  Object.values(FIELD_ID).includes(field?.id as Field["id"]);
 
-const isColorValid = (color: ColorRaw | undefined): color is ColorRaw =>
-  Object.values(COLOR_ID).includes(color?.id as ColorRaw["id"]);
+const isColorValid = (color: Color | undefined): color is Color =>
+  Object.values(COLOR_ID).includes(color?.id as Color["id"]);
 
 const handleEntityFieldAndColor = (
   response: ResponseComposition,
   context: RestContext,
-  entity: EntityRaw,
-  field: FieldRaw | undefined,
-  color: ColorRaw | undefined,
+  entity: Entity,
+  field: Field | undefined,
+  color: Color | undefined,
 ) => {
   if (field !== undefined && color !== undefined) {
     const { id: entityId } = entity;
@@ -61,8 +60,8 @@ const handleEntityFieldAndColor = (
 const handleEntityAndField = (
   response: ResponseComposition,
   context: RestContext,
-  entity: EntityRaw,
-  field: FieldRaw | undefined,
+  entity: Entity,
+  field: Field | undefined,
 ) => {
   if (field !== undefined) {
     const { id: entityId } = entity;
@@ -193,7 +192,7 @@ const handleEntityAndField = (
 const handleEntityOnly = (
   response: ResponseComposition,
   context: RestContext,
-  entity: EntityRaw,
+  entity: Entity,
 ) => {
   const { id: entityId } = entity;
 

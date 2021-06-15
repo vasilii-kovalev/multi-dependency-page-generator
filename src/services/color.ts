@@ -11,4 +11,4 @@ const getColors = async (): Promise<Colors> => {
   return data;
 };
 
-export { getColorsEndpoint, getColors };
+export { getColors, getColorsEndpoint };

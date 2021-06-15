@@ -4,7 +4,7 @@ import { DEFAULT_DELAY } from "mocks/constants";
 import { getFieldsEndpoint, ENTITY_ID_QUERY_PARAMETER } from "services/field";
 
 import { ENTITY_ID } from "../entity/constants";
-import { FieldsRaw } from "./types";
+import { Fields } from "./types";
 
 const getFields = rest.get(getFieldsEndpoint, (request, response, context) => {
   const entityId = request.url.searchParams.get(ENTITY_ID_QUERY_PARAMETER);
@@ -18,7 +18,7 @@ const getFields = rest.get(getFieldsEndpoint, (request, response, context) => {
   }
 
   if (entityId === ENTITY_ID.posts) {
-    const fields: FieldsRaw = [
+    const fields: Fields = [
       {
         name: "User Id",
         id: "userId",
@@ -49,7 +49,7 @@ const getFields = rest.get(getFieldsEndpoint, (request, response, context) => {
   }
 
   if (entityId === ENTITY_ID.users) {
-    const fields: FieldsRaw = [
+    const fields: Fields = [
       {
         name: "Id",
         id: "id",
@@ -100,7 +100,7 @@ const getFields = rest.get(getFieldsEndpoint, (request, response, context) => {
   }
 
   if (entityId === ENTITY_ID.variables) {
-    const fields: FieldsRaw = [];
+    const fields: Fields = [];
 
     return response(
       context.status(200),

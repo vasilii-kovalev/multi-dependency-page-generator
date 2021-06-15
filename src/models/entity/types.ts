@@ -12,4 +12,4 @@ interface Entity {
 
 type Entities = Entity[];
 
-export type { EntityId, Entity, Entities };
+export type { Entity, EntityId, Entities };

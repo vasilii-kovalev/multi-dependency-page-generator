@@ -13,4 +13,4 @@ const PAGE_TEMPLATE = {
   colorPicker: "colorPicker",
 } as const;
 
-export { QUERY_KEY as PAGE_CONFIG_QUERY_KEY, PAGE_TEMPLATE };
+export { PAGE_TEMPLATE, QUERY_KEY as PAGE_CONFIG_QUERY_KEY };

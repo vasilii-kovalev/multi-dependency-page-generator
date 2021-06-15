@@ -67,4 +67,12 @@ type PageConfig<Template extends PageTemplate = PageTemplate> =
     ? PageConfigWithoutParams<Template>
     : PageConfigWithParams<Template>;
 
-export type { PageConfig, TableParams };
+export type {
+  Image,
+  Link,
+  PageConfig,
+  PageConfigWithoutParams,
+  PageTemplate,
+  TableParams,
+  TemplateColorPickerParams,
+};

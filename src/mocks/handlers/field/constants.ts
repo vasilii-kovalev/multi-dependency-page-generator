@@ -17,4 +17,4 @@ const FIELD_GROUP = {
   default: "default",
 } as const;
 
-export { FIELD_ID, FIELD_GROUP };
+export { FIELD_GROUP, FIELD_ID };

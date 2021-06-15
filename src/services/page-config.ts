@@ -20,4 +20,4 @@ const getPageConfig = async (params: RequestParams): Promise<PageConfig> => {
   return data;
 };
 
-export { getPageConfigEndpoint, getPageConfig };
+export { getPageConfig, getPageConfigEndpoint };

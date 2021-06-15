@@ -19,4 +19,4 @@ const ReactQueryProvider: React.FC = ({ children }) => {
   );
 };
 
-export { queryClient, ReactQueryProvider };
+export { ReactQueryProvider, queryClient };

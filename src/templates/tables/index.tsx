@@ -1,10 +1,10 @@
 import { Space, Table } from "antd";
 import { ColumnType } from "antd/lib/table";
 import * as React from "react";
+import { useQuery } from "react-query";
 
 import { PAGE_TEMPLATE } from "models/page-config/constants";
 import { PageConfig, TableParams } from "models/page-config/types";
-import { useQuery } from "react-query";
 import { TABLE_QUERY_KEY } from "models/table/constants";
 import { getTableData } from "services/table";
 
@@ -23,7 +23,6 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
   const columnsAdjusted = columns.map(({ id, name }) => {
     const column: ColumnType<any> = {
       dataIndex: id,
-      key: id,
       title: name,
     };
 
@@ -38,11 +37,7 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
       dataSource={tableData}
       loading={isTableDataLoading}
       pagination={false}
-      rowKey={(record, index = 0) => {
-        const columnId = columns[index].id;
-
-        return `${columnId}-${index}`;
-      }}
+      rowKey={columns[0].id}
     />
   );
 };
@@ -56,7 +51,7 @@ const TemplateTables: React.VFC<TemplateProps> = ({ pageConfig }) => {
     params: { tables },
   } = pageConfig;
 
-  const tableComponents = tables.map(tableParams => {
+  const tableComponents = [tables[0]].map(tableParams => {
     return <TableComponent params={tableParams} />;
   });
 

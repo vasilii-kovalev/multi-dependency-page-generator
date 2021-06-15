@@ -22,4 +22,4 @@ const getFields = async (entityId: EntityId): Promise<Fields> => {
   return data;
 };
 
-export { getFieldsEndpoint, getFields, ENTITY_ID_QUERY_PARAMETER };
+export { ENTITY_ID_QUERY_PARAMETER, getFields, getFieldsEndpoint };

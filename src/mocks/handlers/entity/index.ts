@@ -3,12 +3,12 @@ import { rest } from "msw";
 import { DEFAULT_DELAY } from "mocks/constants";
 import { getEntitiesEndpoint } from "services/entity";
 
-import { EntitiesRaw } from "./types";
+import { Entities } from "./types";
 
 const getEntities = rest.get(
   getEntitiesEndpoint,
   (request, response, context) => {
-    const entities: EntitiesRaw = [
+    const entities: Entities = [
       {
         name: "Posts",
         id: "posts",

@@ -11,4 +11,4 @@ interface Color {
 
 type Colors = Color[];
 
-export type { ColorId, Color, Colors };
+export type { Color, ColorId, Colors };

@@ -5,4 +5,4 @@ const TABLE_PERMISSION = {
   write: "write",
 } as const;
 
-export { QUERY_KEY as TABLE_QUERY_KEY, TABLE_PERMISSION };
+export { TABLE_PERMISSION, QUERY_KEY as TABLE_QUERY_KEY };
