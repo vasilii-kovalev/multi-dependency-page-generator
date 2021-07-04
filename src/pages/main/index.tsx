@@ -25,7 +25,7 @@ import { TemplateImageAndLinks } from "templates/image-and-links";
 import { TemplateImagesAndLink } from "templates/images-and-link";
 import { TemplateTables } from "templates/tables";
 
-import classes from "./styles.module.css";
+import classes from "./styles.module.scss";
 
 const { Content, Header, Footer, Sider } = Layout;
 const { Option } = Select;

@@ -21,6 +21,7 @@ const TableComponent: React.VFC<TableComponentProps> = ({ params }) => {
   );
 
   const columnsAdjusted = columns.map(({ id, name }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const column: ColumnType<any> = {
       dataIndex: id,
       title: name,
