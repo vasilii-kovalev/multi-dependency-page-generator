@@ -53,7 +53,7 @@ const TemplateTables: React.VFC<TemplateProps> = ({ pageConfig }) => {
   } = pageConfig;
 
   const tableComponents = tables.map(tableParams => {
-    return <TableComponent params={tableParams} />;
+    return <TableComponent key={tableParams.id} params={tableParams} />;
   });
 
   return (

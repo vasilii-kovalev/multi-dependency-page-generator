@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 
 // https://vitejs.dev/config/
-export default defineConfig({
+const viteConfig = defineConfig({
   plugins: [reactRefresh()],
   resolve: {
     alias: {
@@ -17,3 +17,5 @@ export default defineConfig({
     },
   },
 });
+
+export default viteConfig;

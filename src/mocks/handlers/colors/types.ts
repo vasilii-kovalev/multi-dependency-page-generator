@@ -1,7 +1,7 @@
 import { Color as ColorFrontEnd } from "models/color/types";
 import { Values } from "types/utils";
 
-import { COLOR_ID, COLOR_GROUP } from "./constants";
+import { COLOR_GROUP, COLOR_ID } from "./constants";
 
 type ColorId = Values<typeof COLOR_ID>;
 

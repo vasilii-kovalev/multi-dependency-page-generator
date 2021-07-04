@@ -1,7 +1,7 @@
 import { rest } from "msw";
 
 import { DEFAULT_DELAY } from "mocks/constants";
-import { getFieldsEndpoint, ENTITY_ID_QUERY_PARAMETER } from "services/field";
+import { ENTITY_ID_QUERY_PARAMETER, getFieldsEndpoint } from "services/field";
 
 import { handleEntityId } from "./utils";
 

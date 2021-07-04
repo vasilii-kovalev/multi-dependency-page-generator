@@ -1,2 +1,5 @@
-dist/
+# Artifacts
+dist
+
+# MSW generated service worker
 public/mockServiceWorker.js

@@ -1,7 +1,7 @@
 {
   "arrowParens": "avoid",
   "bracketSpacing": true,
-  "endOfLine": "crlf",
+  "endOfLine": "auto",
   "jsxBracketSameLine": false,
   "jsxSingleQuote": false,
   "printWidth": 80,

@@ -1,7 +1,7 @@
 import { rest } from "msw";
 
 import { DEFAULT_DELAY } from "mocks/constants";
-import { getTableDataEndpoint, TABLE_ID_QUERY_PARAMETER } from "services/table";
+import { TABLE_ID_QUERY_PARAMETER, getTableDataEndpoint } from "services/table";
 
 import { handleTableId } from "./utils";
 
